@@ -50,8 +50,8 @@ end
 
 function love.mousepressed(x, y, button, istouch)
 	local camx, camy = cam:getCenter()
-	local xReal = x - camx
-	local yReal = y - camy
+	local xReal = (x - camx) / cam.scale
+	local yReal = (y - camy) / cam.scale
 	local newRect = {x = xReal, y = yReal, w = 100 * love.math.random(), h = 100 * love.math.random()}
 	table.insert(rects, newRect)
 end
