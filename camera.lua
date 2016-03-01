@@ -43,14 +43,17 @@ end
 
 function Camera:drawStart()
 	love.graphics.push()
-	love.graphics.translate(self:getCenter())
+	love.graphics.translate(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
 	love.graphics.scale(self.scale, self.scale)
 	love.graphics.rotate(self.angle)
+	love.graphics.push()
+	love.graphics.translate(self.x, self.y)
 end
 
 function Camera:drawEnd()
 	-- draw debug at the end so that it appears over other draws
 	self:debugDraw()
+	love.graphics.pop()
 	love.graphics.pop()
 end
 

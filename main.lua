@@ -23,19 +23,25 @@ function love.draw()
 end
 
 function love.update(dt)
+	local camShift = 10
+	local x = math.cos(cam.angle) * camShift
+	local y = math.sin(cam.angle) * camShift
 	if love.keyboard.isDown('left') then
-	    cam:shift(-10, 0)
+	    cam:shift(-x, y)
 	elseif love.keyboard.isDown('right') then
-	    cam:shift(10, 0)
-	elseif love.keyboard.isDown('up') then
-	    cam:shift(0, -10)
+	    cam:shift(x, -y)
+	end
+	if love.keyboard.isDown('up') then
+	    cam:shift(-y, -x)
 	elseif love.keyboard.isDown('down') then
-		cam:shift(0, 10)
-	elseif love.keyboard.isDown('-') then
+		cam:shift(y, x)
+	end
+	if love.keyboard.isDown('-') then
 		cam:zoom(-.01)
 	elseif love.keyboard.isDown('=') then
 		cam:zoom(.01)
-	elseif love.keyboard.isDown('o') then
+	end
+	if love.keyboard.isDown('o') then
 		cam:rotate(-math.pi / 60)
 	elseif love.keyboard.isDown('p') then
 		cam:rotate(math.pi / 60)
