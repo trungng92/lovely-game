@@ -16,13 +16,18 @@ function love.draw()
 	cam:drawStart()
 
 	for i,v in ipairs(rects) do
+		love.graphics.push()
+		love.graphics.rotate(-v.angle)
 		love.graphics.rectangle("fill", v.x - v.w / 2, v.y - v.h / 2, v.w, v.h)
+		love.graphics.pop()
 	end
 
 	cam:drawEnd()
 end
 
 function love.update(dt)
+	-- ideally we won't be doing math.cos and math.sin every frame
+	-- but for now since this is just messing around, just do it to keep the code clean
 	local camShift = 10
 	local x = math.cos(cam.angle) * camShift
 	local y = math.sin(cam.angle) * camShift
@@ -52,6 +57,11 @@ function love.mousepressed(x, y, button, istouch)
 	local camx, camy = cam:getCenter()
 	local xReal = (x - camx) / cam.scale
 	local yReal = (y - camy) / cam.scale
-	local newRect = {x = xReal, y = yReal, w = 100 * love.math.random(), h = 100 * love.math.random()}
+	local newRect = {
+		x = xReal,
+		y = yReal,
+		w = 100 * love.math.random(),
+		h = 100 * love.math.random(),
+		angle = cam.angle}
 	table.insert(rects, newRect)
 end
