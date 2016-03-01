@@ -1,5 +1,8 @@
 require 'camera'
 
+-- show console output
+io.stdout:setvbuf("no")
+
 function love.load()
 	cam = Camera.new()
 	rects = {}
