@@ -6,7 +6,6 @@ function Camera.new()
 	self.x = 0
 	self.y = 0
 	self.scale = 1
-	self.angle = 0
 	self.debugDrawEnabled = true
 	return self
 end
@@ -33,19 +32,10 @@ function Camera:setZoom(scale)
 	self.scale = scale
 end
 
-function Camera:rotate(angle)
-	self.angle = self.angle + angle
-end
-
-function Camera:setRotate(angle)
-	self.angle = angle
-end
-
 function Camera:drawStart()
 	love.graphics.push()
 	love.graphics.translate(love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
 	love.graphics.scale(self.scale, self.scale)
-	love.graphics.rotate(self.angle)
 	-- shift in the opposite direction
 	-- because if the camera moves right,
 	-- then that's equivalent to shifting everything to the left
