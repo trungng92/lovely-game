@@ -16,52 +16,40 @@ function love.draw()
 	cam:drawStart()
 
 	for i,v in ipairs(rects) do
-		love.graphics.push()
-		love.graphics.rotate(-v.angle)
 		love.graphics.rectangle("fill", v.x - v.w / 2, v.y - v.h / 2, v.w, v.h)
-		love.graphics.pop()
 	end
 
 	cam:drawEnd()
 end
 
 function love.update(dt)
-	-- ideally we won't be doing math.cos and math.sin every frame
-	-- but for now since this is just messing around, just do it to keep the code clean
-	local camShift = 10
-	local x = math.cos(cam.angle) * camShift
-	local y = math.sin(cam.angle) * camShift
+	camShift = 10
 	if love.keyboard.isDown('left') then
-	    cam:shift(-x, y)
+	    cam:shift(-camShift, 0)
 	elseif love.keyboard.isDown('right') then
-	    cam:shift(x, -y)
+	    cam:shift(camShift, 0)
 	end
 	if love.keyboard.isDown('up') then
-	    cam:shift(-y, -x)
+	    cam:shift(0, -camShift)
 	elseif love.keyboard.isDown('down') then
-		cam:shift(y, x)
+		cam:shift(0, camShift)
 	end
 	if love.keyboard.isDown('-') then
 		cam:zoom(-.01)
 	elseif love.keyboard.isDown('=') then
 		cam:zoom(.01)
 	end
-	if love.keyboard.isDown('o') then
-		cam:rotate(-math.pi / 60)
-	elseif love.keyboard.isDown('p') then
-		cam:rotate(math.pi / 60)
-	end
 end
 
 function love.mousepressed(x, y, button, istouch)
 	local camx, camy = cam:getCenter()
-	local xReal = (x - camx) / cam.scale
-	local yReal = (y - camy) / cam.scale
+	local xReal = (x - love.graphics.getWidth() / 2) / cam.scale + cam.x
+	local yReal = (y - love.graphics.getHeight() / 2) / cam.scale + cam.y
 	local newRect = {
 		x = xReal,
 		y = yReal,
 		w = 100 * love.math.random(),
 		h = 100 * love.math.random(),
-		angle = cam.angle}
+	}
 	table.insert(rects, newRect)
 end
