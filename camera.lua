@@ -6,7 +6,7 @@ function Camera.new()
 	self.x = 0
 	self.y = 0
 	self.scale = 1
-	self.debugDrawEnabled = true
+	self.debugDrawEnabled = false
 	return self
 end
 
@@ -58,4 +58,15 @@ function Camera:debugDraw()
 		love.graphics.rectangle("fill", -squareSize / 2, -squareSize / 2, squareSize, squareSize)
 		love.graphics.setColor(r, g, b, a)
 	end
+end
+
+-- mousePosition gets the position of the mouse relative to the camera
+-- i.e. the real world position
+function Camera:mousePosition()
+	return (love.mouse.getX() - love.graphics.getWidth() / 2) / self.scale + self.x, (love.mouse.getY() - love.graphics.getHeight() / 2) / self.scale + self.y
+end
+
+-- camPosition gets the position of the center of the camera
+function Camera:camPosition()
+	return self.x + love.graphics.getWidth() / (2 * self.scale), self.y + love.graphics.getHeight() / (2 * self.scale)
 end

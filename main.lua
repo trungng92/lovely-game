@@ -1,4 +1,5 @@
 require 'camera'
+require 'clickable'
 
 -- show console output
 io.stdout:setvbuf("no")
@@ -6,6 +7,11 @@ io.stdout:setvbuf("no")
 function love.load()
 	cam = Camera.new()
 	rects = {}
+	clickable = Clickable.new()
+	clickable:setRect({x = 0, y = 0, w = 200, h = 200})
+	clickable:setAction(function()
+		print('hello')
+	end)
 end
 
 function love.draw()
@@ -14,6 +20,7 @@ function love.draw()
 	love.graphics.print('zoom in and out with - and =', 10, 50)
 	love.graphics.print('rotate camera with o and p', 10, 70)
 	cam:drawStart()
+	clickable:debugDraw()
 
 	for i,v in ipairs(rects) do
 		love.graphics.rectangle("fill", v.x - v.w / 2, v.y - v.h / 2, v.w, v.h)
@@ -23,6 +30,8 @@ function love.draw()
 end
 
 function love.update(dt)
+	local mouseX, mouseY = cam:mousePosition()
+	clickable:checkClick(cam, 1, mouseX, mouseY)
 	camShift = 10
 	if love.keyboard.isDown('left') then
 	    cam:shift(-camShift, 0)
