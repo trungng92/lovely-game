@@ -7,11 +7,12 @@ io.stdout:setvbuf("no")
 function love.load()
 	cam = Camera.new()
 	rects = {}
-	clickable = Clickable.new()
-	clickable:setRect({x = 0, y = 0, w = 200, h = 200})
-	clickable:setAction(function()
+
+	local rect = {x = -100, y = -100, w = 200, h = 200}
+	local action = function()
 		print('hello')
-	end)
+	end
+	clickable = Clickable.new(cam, rect, action)
 end
 
 function love.draw()
@@ -30,8 +31,6 @@ function love.draw()
 end
 
 function love.update(dt)
-	local mouseX, mouseY = cam:mousePosition()
-	clickable:checkClick(cam, 1, mouseX, mouseY)
 	camShift = 10
 	if love.keyboard.isDown('left') then
 	    cam:shift(-camShift, 0)
@@ -51,14 +50,13 @@ function love.update(dt)
 end
 
 function love.mousepressed(x, y, button, istouch)
-	local camx, camy = cam:getCenter()
-	local xReal = (x - love.graphics.getWidth() / 2) / cam.scale + cam.x
-	local yReal = (y - love.graphics.getHeight() / 2) / cam.scale + cam.y
-	local newRect = {
-		x = xReal,
-		y = yReal,
-		w = 100 * love.math.random(),
-		h = 100 * love.math.random(),
-	}
-	table.insert(rects, newRect)
+	clickable:checkPress(1)
+end
+
+function love.mousemoved(x, y, button, istouch)
+	clickable:checkMove(1)
+end
+
+function love.mousereleased(x, y, button, istouch)
+	clickable:checkRelease(1)
 end
