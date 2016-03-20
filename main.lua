@@ -1,5 +1,6 @@
 require 'camera'
 require 'clickable'
+require 'collideable'
 
 -- show console output
 io.stdout:setvbuf("no")
@@ -12,7 +13,9 @@ function love.load()
 	local action = function()
 		print('hello')
 	end
-	clickable = Clickable.new(cam, rect, action)
+
+	collideable = Collideable.new(rect, false)
+	clickable = Clickable.new(cam, collideable, action, true)
 end
 
 function love.draw()
@@ -21,6 +24,7 @@ function love.draw()
 	love.graphics.print('zoom in and out with - and =', 10, 50)
 	love.graphics.print('rotate camera with o and p', 10, 70)
 	cam:drawStart()
+	collideable:debugDraw()
 	clickable:debugDraw()
 
 	for i,v in ipairs(rects) do

@@ -3,43 +3,26 @@ require('misc')
 Clickable = {}
 Clickable.__index = Clickable
 
-function Clickable.new(cam, rect, action)
+function Clickable.new(cam, collideable, action, debugDraw)
 	local self = setmetatable({}, Clickable)
 	self.pressed = false
 	self.over = false
-	-- what cam to use for rendering the position
+	-- what cam to use for determining collisions with the mouse
 	self.cam = cam
-	-- bounding box to check for collisions
-	-- i made this an object so it can be a reference
-	self.rect = rect -- {x = 0, y = 0, w = 0, h = 0}
+	self.collideable = collideable
 	-- action to be performed when click happens
 	self.action = action
-	self.debugDrawEnabled = true
+	self.debugDrawEnabled = not not debugDraw
 	return self
 end
 
-function Clickable:setRect(rect)
-	self.rect = rect
+function Clickable:setCollideable(collideable)
+	self.collideable = collideable
 end
 
-function Clickable:getRect()
-	assert(self.rect ~= nil , 'tried to get rect, but it was nil')
-	return self.rect
-end
-
-function Clickable:setCam(cam)
-	self.cam = cam
-end
-
-function Clickable:getCam()
-	assert(self.cam ~= nil , 'tried to get cam, but it was nil')
-	return self.cam
-end
-
--- getRectUnpacked is useful for when we want to return a tuple
-function Clickable:getRectUnpacked()
-	local rect = self.rect
-	return rect.x, rect.y, rect.w, rect.h
+function Clickable:getCollideable()
+	assert(self.collideable ~= nil, 'tried to get collideable, but it was nil')
+	return self.collideable
 end
 
 function Clickable:setCam(cam)
@@ -79,8 +62,7 @@ end
 
 function Clickable:isMouseColliding()
 	local mouseX, mouseY = self:getCam():mousePosition()
-	local x, y, w, h = self:getRectUnpacked()
-	return checkCollision(x, y, w, h, mouseX, mouseY, 1, 1)
+	return self.collideable:isCollidingRect(mouseX, mouseY, 1, 1)
 end
 
 function Clickable:debugDraw()
@@ -89,13 +71,8 @@ function Clickable:debugDraw()
 		local newR = 255
 		local newG = 255 * boolToNum(self.pressed and self.over)
 		love.graphics.setColor(newR, newG, 0)
-		local squareSize = 20
-		local rect = self:getRect()
-		love.graphics.rectangle("fill",
-			rect.x,
-			rect.y,
-			rect.w,
-			rect.h)
+		local rect = self:getCollideable():getRect()
+		love.graphics.rectangle("fill", rect.x,	rect.y,	rect.w,	rect.h)
 		love.graphics.setColor(r, g, b, a)
 	end
 end
