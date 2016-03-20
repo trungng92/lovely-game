@@ -1,13 +1,30 @@
+require('collideable')
+
 Camera = {}
 Camera.__index = Camera
 
-function Camera.new()
+function Camera.new(debugDraw)
 	local self = setmetatable({}, Camera)
 	self.x = 0
 	self.y = 0
 	self.scale = 1
-	self.debugDrawEnabled = false
+
+	-- useful if we want to check if anything is colliding with the camera (aka on screen)
+	self.rect = {
+		x = self.x,
+		y = self.y,
+		w = love.graphics.getWidth() * self.scale,
+		h = love.graphics.getHeight() * self.scale
+	}
+	self.collideable = Collideable.new(self.rect)
+
+	self.debugDrawEnabled = not not debugDraw
 	return self
+end
+
+function Camera:getCollideable()
+	assert(self.collideable ~= nil, 'tried to get collideable, but it was nil')
+	return self.collideable
 end
 
 function Camera:getCenter()
@@ -17,19 +34,27 @@ end
 function Camera:shift(x, y)
 	self.x = self.x + x
 	self.y = self.y + y
+	self.rect.x = self.x
+	self.rect.y = self.y
 end
 
 function Camera:setPos(x, y)
 	self.x = x
 	self.y = y
+	self.rect.x = self.x
+	self.rect.y = self.y
 end
 
 function Camera:zoom(scale)
 	self.scale = self.scale + scale
+	self.rect.w = love.graphics.getWidth() * self.scale
+	self.rect.h = love.graphics.getHeight() * self.scale
 end
 
 function Camera:setZoom(scale)
 	self.scale = scale
+	self.rect.w = love.graphics.getWidth() * self.scale
+	self.rect.h = love.graphics.getHeight() * self.scale
 end
 
 function Camera:drawStart()
