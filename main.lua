@@ -15,6 +15,7 @@ function love.load()
 
 	collideable = Collideable.new(rect, false)
 	clickable = Clickable.new(cam, collideable, action, true)
+	button = Button.new(cam, clickable)
 end
 
 function love.draw()
@@ -23,9 +24,7 @@ function love.draw()
 	love.graphics.print('zoom in and out with - and =', 10, 50)
 	love.graphics.print('rotate camera with o and p', 10, 70)
 	cam:drawStart()
-	collideable:debugDraw()
-	clickable:debugDraw()
-
+	button:draw()
 	cam:drawEnd()
 end
 

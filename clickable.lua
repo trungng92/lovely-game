@@ -25,6 +25,15 @@ function Clickable:getCollideable()
 	return self.collideable
 end
 
+function Clickable:isPressed()
+	return self.pressed
+end
+
+function Clickable:isOver()
+	return self.over
+end
+
+
 function Clickable:setCam(cam)
 	self.cam = cam
 end
