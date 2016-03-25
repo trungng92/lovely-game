@@ -1,13 +1,12 @@
 require 'camera'
 require 'clickable'
 require 'collideable'
-
+require 'ui/button'
 -- show console output
 io.stdout:setvbuf("no")
 
 function love.load()
 	cam = Camera.new()
-	rects = {}
 
 	local rect = {x = -100, y = -100, w = 200, h = 200}
 	local action = function()
@@ -26,10 +25,6 @@ function love.draw()
 	cam:drawStart()
 	collideable:debugDraw()
 	clickable:debugDraw()
-
-	for i,v in ipairs(rects) do
-		love.graphics.rectangle("fill", v.x - v.w / 2, v.y - v.h / 2, v.w, v.h)
-	end
 
 	cam:drawEnd()
 end
