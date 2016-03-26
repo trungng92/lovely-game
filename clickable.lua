@@ -1,4 +1,4 @@
-require('misc')
+require 'misc'
 
 Clickable = {}
 Clickable.__index = Clickable
@@ -104,6 +104,6 @@ function Clickable:debugDraw()
 		love.graphics.setColor(newR, newG, 0)
 		local rect = self:getCollideable():getRect()
 		love.graphics.rectangle("fill", rect.x,	rect.y,	rect.w,	rect.h)
-		love.graphics.setColor(r, g, b, a)
+		love.graphics.setColor(r, g, b)
 	end
 end

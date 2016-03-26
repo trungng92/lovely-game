@@ -1,4 +1,4 @@
-require('misc')
+require 'misc'
 
 Button = {}
 Button.__index = Button
@@ -51,6 +51,6 @@ function Button:debugDraw()
 		love.graphics.setColor(newR, newG, 0)
 		local rect = clickable:getCollideable():getRect()
 		love.graphics.rectangle("fill", rect.x,	rect.y,	rect.w,	rect.h)
-		love.graphics.setColor(r, g, b, a)
+		love.graphics.setColor(r, g, b)
 	end
 end

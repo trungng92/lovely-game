@@ -47,6 +47,6 @@ function Collideable:debugDraw()
 		love.graphics.setColor(newR, 0, 0)
 		local rect = self:getRect()
 		love.graphics.rectangle("fill",	rect.x,	rect.y,	rect.w,	rect.h)
-		love.graphics.setColor(r, g, b, a)
+		love.graphics.setColor(r, g, b)
 	end
 end

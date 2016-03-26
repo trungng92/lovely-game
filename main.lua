@@ -31,35 +31,35 @@ function love.update(dt)
 	camShift = 10
 	if love.keyboard.isDown('left') then
 	    cam:shift(-camShift, 0)
-		ebutton:getButton():getClickable():checkMove(1)
+		ebutton:getButton():getClickable():checkMove()
 	elseif love.keyboard.isDown('right') then
 	    cam:shift(camShift, 0)
-		ebutton:getButton():getClickable():checkMove(1)
+		ebutton:getButton():getClickable():checkMove()
 	end
 	if love.keyboard.isDown('up') then
 	    cam:shift(0, -camShift)
-		ebutton:getButton():getClickable():checkMove(1)
+		ebutton:getButton():getClickable():checkMove()
 	elseif love.keyboard.isDown('down') then
 		cam:shift(0, camShift)
-		ebutton:getButton():getClickable():checkMove(1)
+		ebutton:getButton():getClickable():checkMove()
 	end
 	if love.keyboard.isDown('-') then
 		cam:zoom(-.01)
-		ebutton:getButton():getClickable():checkMove(1)
+		ebutton:getButton():getClickable():checkMove()
 	elseif love.keyboard.isDown('=') then
 		cam:zoom(.01)
-		ebutton:getButton():getClickable():checkMove(1)
+		ebutton:getButton():getClickable():checkMove()
 	end
 end
 
 function love.mousepressed(x, y, button, istouch)
-	ebutton:getButton():getClickable():checkPress(1)
+	ebutton:getButton():getClickable():checkPress()
 end
 
 function love.mousemoved(x, y, button, istouch)
-	ebutton:getButton():getClickable():checkMove(1)
+	ebutton:getButton():getClickable():checkMove()
 end
 
 function love.mousereleased(x, y, button, istouch)
-	ebutton:getButton():getClickable():checkRelease(1)
+	ebutton:getButton():getClickable():checkRelease()
 end

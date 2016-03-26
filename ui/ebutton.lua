@@ -1,4 +1,4 @@
-require('misc')
+require 'misc'
 require 'ui/button'
 require 'clickable'
 require 'collideable'
