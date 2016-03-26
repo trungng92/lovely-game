@@ -3,7 +3,7 @@ require('misc')
 Clickable = {}
 Clickable.__index = Clickable
 
-function Clickable.new(cam, collideable, action, debugDraw)
+function Clickable.new(cam, collideable, clickActionFn, pressFn, releaseFn, hoverFn, hoverOffFn, debugDraw)
 	local self = setmetatable({}, Clickable)
 	self.pressed = false
 	self.over = false
@@ -11,7 +11,14 @@ function Clickable.new(cam, collideable, action, debugDraw)
 	self.cam = cam
 	self.collideable = collideable
 	-- action to be performed when click happens
-	self.action = action
+	self.clickActionFn = clickActionFn
+
+	-- these four are optional
+	self.pressFn = pressFn
+	self.releaseFn = releaseFn
+	self.hoverFn = hoverFn
+	self.hoverOffFn = hoverOffFn
+
 	self.debugDrawEnabled = not not debugDraw
 	return self
 end
@@ -43,29 +50,44 @@ function Clickable:getCam()
 	return self.cam
 end
 
-function Clickable:setAction(action)
-	self.action = action
-end
-
 function Clickable:checkPress(mouseButton)
+	local leftMouseButton = 1
+	mouseButton = mouseButton or leftMouseButton
 	-- only handle primary mouse button for clicks for now
-	if mouseButton == 1 and self:isMouseColliding() then
+	if mouseButton == leftMouseButton and self:isMouseColliding() then
 		self.pressed = true
 		self.over = true
+		if self.pressFn then
+			self.pressFn()
+		end
 	end
 end
 
-function Clickable:checkMove(mouseButton)
+function Clickable:checkMove()
+	local beforeOver = self.over
 	self.over = self:isMouseColliding()
+	if self.over ~= beforeOver then
+		if self.over and self.hoverFn then
+			self.hoverFn()
+		elseif not self.over and self.hoverOffFn then
+			self.hoverOffFn()
+		end
+	end
 end
 
 function Clickable:checkRelease(mouseButton)
-	if mouseButton == 1 then
+	local leftMouseButton = 1
+	mouseButton = mouseButton or leftMouseButton
+	if mouseButton == leftMouseButton then
 		if self.over then
-			self:action()
+			self:clickActionFn()
 		end
 		self.pressed = false
-		self.over = false
+		-- self.over = false
+
+		if self.releaseFn then
+			self.releaseFn()
+		end
 	end
 end
 

@@ -1,8 +1,6 @@
 require 'camera'
-require 'clickable'
-require 'collideable'
-require 'ui/button'
 require 'ui/ebutton'
+flux = require 'lib/flux'
 
 -- show console output
 io.stdout:setvbuf("no")
@@ -22,28 +20,35 @@ function love.draw()
 	love.graphics.print('click to make squares', 10, 10)
 	love.graphics.print('move the camera with the arrow keys', 10, 30)
 	love.graphics.print('zoom in and out with - and =', 10, 50)
-	love.graphics.print('rotate camera with o and p', 10, 70)
 	cam:drawStart()
 	ebutton:draw()
 	cam:drawEnd()
 end
 
 function love.update(dt)
+	flux.update(dt)
+
 	camShift = 10
 	if love.keyboard.isDown('left') then
 	    cam:shift(-camShift, 0)
+		ebutton:getButton():getClickable():checkMove(1)
 	elseif love.keyboard.isDown('right') then
 	    cam:shift(camShift, 0)
+		ebutton:getButton():getClickable():checkMove(1)
 	end
 	if love.keyboard.isDown('up') then
 	    cam:shift(0, -camShift)
+		ebutton:getButton():getClickable():checkMove(1)
 	elseif love.keyboard.isDown('down') then
 		cam:shift(0, camShift)
+		ebutton:getButton():getClickable():checkMove(1)
 	end
 	if love.keyboard.isDown('-') then
 		cam:zoom(-.01)
+		ebutton:getButton():getClickable():checkMove(1)
 	elseif love.keyboard.isDown('=') then
 		cam:zoom(.01)
+		ebutton:getButton():getClickable():checkMove(1)
 	end
 end
 

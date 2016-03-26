@@ -3,7 +3,7 @@ require('misc')
 Button = {}
 Button.__index = Button
 
-function Button.new(cam, clickable, drawUp, drawDown, debugDraw)
+function Button.new(cam, clickable, drawFn, debugDraw)
 	local self = setmetatable({}, Button)
 	self.pressed = false
 	self.over = false
@@ -13,9 +13,8 @@ function Button.new(cam, clickable, drawUp, drawDown, debugDraw)
 	-- this way if I add different components like dragging,
 	-- then then each component can control how it wants to deal with it.
 	self.clickable = clickable
-	-- function that displays we want the button to look like in the up/down state
-	self.drawUp = drawUp or drawDefaultButtonUp
-	self.drawDown = drawDown or drawDefaultButtonDown
+	-- how to draw the button
+	self.drawFn = drawFn
 
 	self.debugDrawEnabled = not not debugDraw
 	return self
@@ -40,11 +39,7 @@ function Button:getCam()
 end
 
 function Button:draw()
-	if self:getClickable():isPressed() and self:getClickable():isOver() then
-		self:drawDown()
-	else
-		self:drawUp()
-	end
+	self.drawFn()
 end
 
 function Button:debugDraw()
