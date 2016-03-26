@@ -2,6 +2,8 @@ require 'camera'
 require 'clickable'
 require 'collideable'
 require 'ui/button'
+require 'ui/ebutton'
+
 -- show console output
 io.stdout:setvbuf("no")
 
@@ -13,9 +15,7 @@ function love.load()
 		print('hello')
 	end
 
-	collideable = Collideable.new(rect, false)
-	clickable = Clickable.new(cam, collideable, action, true)
-	button = Button.new(cam, clickable)
+	ebutton = EButton.new(cam, rect, action)
 end
 
 function love.draw()
@@ -24,7 +24,7 @@ function love.draw()
 	love.graphics.print('zoom in and out with - and =', 10, 50)
 	love.graphics.print('rotate camera with o and p', 10, 70)
 	cam:drawStart()
-	button:draw()
+	ebutton:draw()
 	cam:drawEnd()
 end
 
@@ -48,13 +48,13 @@ function love.update(dt)
 end
 
 function love.mousepressed(x, y, button, istouch)
-	clickable:checkPress(1)
+	ebutton:getButton():getClickable():checkPress(1)
 end
 
 function love.mousemoved(x, y, button, istouch)
-	clickable:checkMove(1)
+	ebutton:getButton():getClickable():checkMove(1)
 end
 
 function love.mousereleased(x, y, button, istouch)
-	clickable:checkRelease(1)
+	ebutton:getButton():getClickable():checkRelease(1)
 end

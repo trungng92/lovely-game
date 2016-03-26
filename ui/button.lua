@@ -49,28 +49,13 @@ end
 
 function Button:debugDraw()
 	if self.debugDrawEnabled then
+		local clickable = self:getClickable()
 		local r, g, b, a = love.graphics.getColor()
 		local newR = 255
-		local newG = 255 * boolToNum(self:getClickable():isPressed() and self:getClickable():isOver())
+		local newG = 255 * boolToNum(clickable:isPressed() and clickable:isOver())
 		love.graphics.setColor(newR, newG, 0)
-		local rect = self:getCollideable():getRect()
+		local rect = clickable:getCollideable():getRect()
 		love.graphics.rectangle("fill", rect.x,	rect.y,	rect.w,	rect.h)
 		love.graphics.setColor(r, g, b, a)
 	end
-end
-
-function drawDefaultButtonUp(button)
-	local r, g, b, a = love.graphics.getColor()
-	love.graphics.setColor(255, 0, 0)
-	local rect = button:getClickable():getCollideable():getRect()
-	love.graphics.rectangle("fill", rect.x,	rect.y,	rect.w,	rect.h, 20)
-	love.graphics.setColor(r, g, b, a)
-end
-
-function drawDefaultButtonDown(button)
-	local r, g, b, a = love.graphics.getColor()
-	love.graphics.setColor(0, 255, 0)
-	local rect = button:getClickable():getCollideable():getRect()
-	love.graphics.rectangle("fill", rect.x,	rect.y,	rect.w,	rect.h, 20)
-	love.graphics.setColor(r, g, b, a)
 end
