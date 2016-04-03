@@ -29,15 +29,6 @@ function Button:getClickable()
 	return self.clickable
 end
 
-function Button:setCam(cam)
-	self.cam = cam
-end
-
-function Button:getCam()
-	assert(self.cam ~= nil , 'tried to get cam, but it was nil')
-	return self.cam
-end
-
 function Button:draw()
 	self.drawFn()
 end

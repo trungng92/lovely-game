@@ -7,6 +7,12 @@ require 'lib/flux'
 EButton = {}
 EButton.__index = EButton
 
+-- EButton is a prebuilt entity that represents a real button.
+-- In addition to giving it a size and action, you can also choose how you want to draw it.
+-- You can provide methods for drawing it in its up, down, mouse hover, and mouse hover off positions.
+-- For the draw buttons, drawFn should tell the button how it should be drawn,
+-- and all of the drawUpFn, drawDownFn, drawHover... functions
+-- should say what state the button, so drawFn knows what it needs to do (e.g. if it needs to tween)
 function EButton.new(cam, rect, actionFn, drawFn, drawUpFn, drawDownFn, drawHoverOffFn, drawHoverFn, debugDraw)
 	local self = setmetatable({}, EButton)
 
@@ -47,7 +53,7 @@ function EButton.new(cam, rect, actionFn, drawFn, drawUpFn, drawDownFn, drawHove
 	self.collideable = Collideable.new(self.rect, false)
 
 	local this = self
-	function updateFn()
+	local function updateFn()
 		this:updateState()
 	end
 
