@@ -1,5 +1,6 @@
 require 'camera'
 require 'ui/ebutton'
+require 'components/rect'
 flux = require 'lib/flux'
 talkback = require 'lib/talkback'
 
@@ -10,7 +11,7 @@ function love.load()
 	conversation = talkback.new()
 	cam = Camera.new()
 
-	local rect = {x = -100, y = -100, w = 200, h = 200}
+	local rect = Rect.new(-100, -100, 200, 200)
 	local action = function()
 		print('hello')
 	end

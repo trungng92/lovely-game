@@ -85,8 +85,8 @@ end
 function EButton:drawDefaultButton()
 	local r, g, b, a = love.graphics.getColor()
 	love.graphics.setColor(self.rCurrent, self.gCurrent, self.bCurrent, self.aCurrent)
-	local rect = self.rect
-	love.graphics.rectangle("fill", rect.x,	rect.y,	rect.w,	rect.h, self.roundCurrent)
+	local x, y, w, h = self.rect:get()
+	love.graphics.rectangle("fill", x, y, w, h, self.roundCurrent)
 	love.graphics.setColor(r, g, b, a)
 end
 

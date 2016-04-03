@@ -102,8 +102,8 @@ function Clickable:debugDraw()
 		local newR = 255
 		local newG = 255 * boolToNum(self.pressed and self.over)
 		love.graphics.setColor(newR, newG, 0)
-		local rect = self:getCollideable():getRect()
-		love.graphics.rectangle("fill", rect.x,	rect.y,	rect.w,	rect.h)
+		local x, y, w, h = self:getCollideable():getRect():get()
+		love.graphics.rectangle("fill", x, y, w, h)
 		love.graphics.setColor(r, g, b)
 	end
 end

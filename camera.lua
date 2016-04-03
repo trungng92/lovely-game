@@ -1,4 +1,5 @@
-require('collideable')
+require 'collideable'
+require 'components/rect'
 
 Camera = {}
 Camera.__index = Camera
@@ -10,12 +11,11 @@ function Camera.new(debugDraw)
 	self.scale = 1
 
 	-- useful if we want to check if anything is colliding with the camera (aka on screen)
-	self.rect = {
-		x = self.x,
-		y = self.y,
-		w = love.graphics.getWidth() * self.scale,
-		h = love.graphics.getHeight() * self.scale
-	}
+	self.rect = Rect.new(
+		self.x,
+		self.y,
+		love.graphics.getWidth() * self.scale,
+		love.graphics.getHeight() * self.scale)
 	self.collideable = Collideable.new(self.rect)
 
 	self.debugDrawEnabled = not not debugDraw
@@ -27,6 +27,11 @@ function Camera:getCollideable()
 	return self.collideable
 end
 
+function Camera:getRect()
+	assert(self.rect ~= nil, 'tried to get rect, but it was nil')
+	return self.rect
+end
+
 function Camera:getCenter()
 	return self.x + love.graphics.getWidth() / 2, self.y + love.graphics.getHeight() / 2
 end
@@ -34,27 +39,23 @@ end
 function Camera:shift(x, y)
 	self.x = self.x + x
 	self.y = self.y + y
-	self.rect.x = self.x
-	self.rect.y = self.y
+	self:getRect():setXY(self.x, self.y)
 end
 
 function Camera:setPos(x, y)
 	self.x = x
 	self.y = y
-	self.rect.x = self.x
-	self.rect.y = self.y
+	self:getRect():setXY(self.x, self.y)
 end
 
 function Camera:zoom(scale)
 	self.scale = self.scale + scale
-	self.rect.w = love.graphics.getWidth() * self.scale
-	self.rect.h = love.graphics.getHeight() * self.scale
+	self:getRect():setWH(love.graphics.getWidth() * self.scale, love.graphics.getHeight() * self.scale)
 end
 
 function Camera:setZoom(scale)
 	self.scale = scale
-	self.rect.w = love.graphics.getWidth() * self.scale
-	self.rect.h = love.graphics.getHeight() * self.scale
+	self:getRect():setWH(love.graphics.getWidth() * self.scale, love.graphics.getHeight() * self.scale)
 end
 
 function Camera:drawStart()
