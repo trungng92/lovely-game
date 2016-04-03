@@ -1,11 +1,13 @@
 require 'camera'
 require 'ui/ebutton'
 flux = require 'lib/flux'
+talkback = require 'lib/talkback'
 
 -- show console output
 io.stdout:setvbuf("no")
 
 function love.load()
+	conversation = talkback.new()
 	cam = Camera.new()
 
 	local rect = {x = -100, y = -100, w = 200, h = 200}
@@ -31,35 +33,33 @@ function love.update(dt)
 	camShift = 10
 	if love.keyboard.isDown('left') then
 	    cam:shift(-camShift, 0)
-		ebutton:getButton():getClickable():checkMove()
 	elseif love.keyboard.isDown('right') then
 	    cam:shift(camShift, 0)
-		ebutton:getButton():getClickable():checkMove()
 	end
 	if love.keyboard.isDown('up') then
 	    cam:shift(0, -camShift)
-		ebutton:getButton():getClickable():checkMove()
 	elseif love.keyboard.isDown('down') then
 		cam:shift(0, camShift)
-		ebutton:getButton():getClickable():checkMove()
 	end
 	if love.keyboard.isDown('-') then
 		cam:zoom(-.01)
-		ebutton:getButton():getClickable():checkMove()
 	elseif love.keyboard.isDown('=') then
 		cam:zoom(.01)
-		ebutton:getButton():getClickable():checkMove()
+	end
+
+	if love.keyboard.isDown('left', 'right', 'up', 'down', '-', '=') then
+		conversation:say('cam transformed', cam)
 	end
 end
 
 function love.mousepressed(x, y, button, istouch)
-	ebutton:getButton():getClickable():checkPress()
+	conversation:say('mouse pressed', x, y, button, istouch)
 end
 
-function love.mousemoved(x, y, button, istouch)
-	ebutton:getButton():getClickable():checkMove()
+function love.mousemoved(x, y, dx, dy)
+	conversation:say('mouse moved', x, y, dx, dy)
 end
 
 function love.mousereleased(x, y, button, istouch)
-	ebutton:getButton():getClickable():checkRelease()
+	conversation:say('mouse released', x, y, button, istouch)
 end

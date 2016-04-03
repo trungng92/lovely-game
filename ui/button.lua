@@ -13,11 +13,35 @@ function Button.new(cam, clickable, drawFn, debugDraw)
 	-- this way if I add different components like dragging,
 	-- then then each component can control how it wants to deal with it.
 	self.clickable = clickable
+
+	-- should these just be in clickable?
+	local this = self
+	self.listenCamTransformed = conversation:listen('cam transformed', function(cam)
+		if cam == this.cam then
+			this:getClickable():checkMove()
+		end
+	end)
+	self.listenMousePressed = conversation:listen('mouse pressed', function(x, y, button, istouch)
+		this:getClickable():checkPress(button)
+	end)
+	self.listenMouseMoved = conversation:listen('mouse moved', function(x, y, dx, dy)
+		this:getClickable():checkMove()
+	end)
+	self.listenMouseReleased = conversation:listen('mouse released', function(x, y, button, istouch)
+		this:getClickable():checkRelease(button)
+	end)
 	-- how to draw the button
 	self.drawFn = drawFn
 
 	self.debugDrawEnabled = not not debugDraw
 	return self
+end
+
+function Button:cleanup()
+	conversation:stopListening(self.listenCamTransformed)
+	conversation:stopListening(self.listenMousePressed)
+	conversation:stopListening(self.listenMouseMoved)
+	conversation:stopListening(self.listenMouseReleased)
 end
 
 function Button:setClickable(clickable)
