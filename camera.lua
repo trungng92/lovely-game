@@ -1,4 +1,4 @@
-require 'collideable'
+require 'components/collideable'
 require 'components/rect'
 
 Camera = {}

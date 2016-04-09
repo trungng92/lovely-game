@@ -1,7 +1,7 @@
 require 'misc'
-require 'ui/button'
-require 'clickable'
-require 'collideable'
+require 'components/ui/button'
+require 'components/clickable'
+require 'components/collideable'
 require 'lib/flux'
 
 EButton = {}
