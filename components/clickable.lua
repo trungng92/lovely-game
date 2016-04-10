@@ -92,7 +92,7 @@ function Clickable:checkRelease(mouseButton)
 end
 
 function Clickable:isMouseColliding()
-	local mouseX, mouseY = self:getCam():mousePosition()
+	local mouseX, mouseY = self:getCam():getMousePosition()
 	return self.collideable:isCollidingRect(mouseX, mouseY, 1, 1)
 end
 

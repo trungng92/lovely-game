@@ -4,27 +4,21 @@ require 'components/rect'
 Camera = {}
 Camera.__index = Camera
 
-function Camera.new(debugDraw)
+function Camera.new(rect, debugDraw)
 	local self = setmetatable({}, Camera)
 	self.x = 0
 	self.y = 0
 	self.scale = 1
 
-	-- useful if we want to check if anything is colliding with the camera (aka on screen)
-	self.rect = Rect.new(
+	self.rect = rect
+	self.rect:set(
 		self.x,
 		self.y,
 		love.graphics.getWidth() * self.scale,
 		love.graphics.getHeight() * self.scale)
-	self.collideable = Collideable.new(self.rect)
 
 	self.debugDrawEnabled = not not debugDraw
 	return self
-end
-
-function Camera:getCollideable()
-	assert(self.collideable ~= nil, 'tried to get collideable, but it was nil')
-	return self.collideable
 end
 
 function Camera:getRect()
@@ -32,8 +26,15 @@ function Camera:getRect()
 	return self.rect
 end
 
+-- mousePosition gets the position of the mouse relative to the camera
+-- i.e. the real world position
+function Camera:getMousePosition()
+	return (love.mouse.getX() - love.graphics.getWidth() / 2) / self.scale + self.x, (love.mouse.getY() - love.graphics.getHeight() / 2) / self.scale + self.y
+end
+
+-- camPosition gets the position of the center of the camera
 function Camera:getCenter()
-	return self.x + love.graphics.getWidth() / 2, self.y + love.graphics.getHeight() / 2
+	return self.x + love.graphics.getWidth() / (2 * self.scale), self.y + love.graphics.getHeight() / (2 * self.scale)
 end
 
 function Camera:shift(x, y)
@@ -84,15 +85,4 @@ function Camera:debugDraw()
 		love.graphics.rectangle("fill", -squareSize / 2, -squareSize / 2, squareSize, squareSize)
 		love.graphics.setColor(r, g, b, a)
 	end
-end
-
--- mousePosition gets the position of the mouse relative to the camera
--- i.e. the real world position
-function Camera:mousePosition()
-	return (love.mouse.getX() - love.graphics.getWidth() / 2) / self.scale + self.x, (love.mouse.getY() - love.graphics.getHeight() / 2) / self.scale + self.y
-end
-
--- camPosition gets the position of the center of the camera
-function Camera:camPosition()
-	return self.x + love.graphics.getWidth() / (2 * self.scale), self.y + love.graphics.getHeight() / (2 * self.scale)
 end
