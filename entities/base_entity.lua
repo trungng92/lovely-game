@@ -19,5 +19,8 @@ function BaseEntity:cleanup()
 	self.conv:stopListening(self.convGroup)
 end
 
+-- every component should have the ability to debug draw itself
+-- however when we debug an entity, the entity should be in charge
+-- of what "debug drawing" should look like
 function BaseEntity:debugDraw()
 end

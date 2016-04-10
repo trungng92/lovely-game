@@ -8,7 +8,7 @@ require 'components/ui/button_simple'
 EButtonSimple = BaseEntity.new()
 EButtonSimple.__index = EButtonSimple
 
-function EButtonSimple.new(cam, rect, actionFn, drawFn, debugDraw)
+function EButtonSimple.new(cam, rect, actionFn, drawFn)
 	local self = setmetatable({}, EButtonSimple)
 	this = self
 
@@ -47,7 +47,7 @@ function EButtonSimple.new(cam, rect, actionFn, drawFn, debugDraw)
 		this.clickable:checkRelease(button)
 	end)
 
-	self.buttonSimple = ButtonSimple.new(self.conv, cam, drawFn, debugDraw)
+	self.buttonSimple = ButtonSimple.new(self.conv, cam, drawFn)
 	return self
 end
 

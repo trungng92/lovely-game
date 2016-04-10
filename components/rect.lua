@@ -1,7 +1,7 @@
 Rect = {}
 Rect.__index = Rect
 
-function Rect.new(x, y, w, h, debugDraw)
+function Rect.new(x, y, w, h)
 	local self = setmetatable({}, Rect)
 	self.x = x or 0
 	self.y = y or 0

@@ -1,13 +1,11 @@
-require 'components/rect'
 require 'misc'
 
 Collideable = {}
 Collideable.__index = Collideable
 
-function Collideable.new(conv, rect, debugDraw)
+function Collideable.new(conv)
 	local self = setmetatable({}, Collideable)
 	self.conv = conv
-	self.debugDrawEnabled = not not debugDraw
 	return self
 end
 
@@ -25,12 +23,10 @@ function Collideable:isCollidingRect(x, y, w, h)
 end
 
 function Collideable:debugDraw()
-	if self.debugDrawEnabled then
-		local r, g, b, a = love.graphics.getColor()
-		local newR = 255
-		love.graphics.setColor(newR, 0, 0)
-		local x, y, w, h = self.conv:say('get_rect')
-		love.graphics.rectangle("fill", x, y, w, h)
-		love.graphics.setColor(r, g, b)
-	end
+	local r, g, b, a = love.graphics.getColor()
+	local newR = 255
+	love.graphics.setColor(newR, 0, 0)
+	local x, y, w, h = self.conv:say('get_rect')
+	love.graphics.rectangle("fill", x, y, w, h)
+	love.graphics.setColor(r, g, b)
 end
