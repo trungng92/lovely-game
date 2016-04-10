@@ -4,20 +4,11 @@ require 'misc'
 Collideable = {}
 Collideable.__index = Collideable
 
-function Collideable.new(rect, debugDraw)
+function Collideable.new(conv, rect, debugDraw)
 	local self = setmetatable({}, Collideable)
-	self.rect = rect
+	self.conv = conv
 	self.debugDrawEnabled = not not debugDraw
 	return self
-end
-
-function Collideable:setRect(rect)
-	self.rect = rect
-end
-
-function Collideable:getRect()
-	assert(self.rect ~= nil , 'tried to get rect, but it was nil')
-	return self.rect
 end
 
 function Collideable:isColliding(collideable)
@@ -26,11 +17,11 @@ function Collideable:isColliding(collideable)
 end
 
 function Collideable:isCollidingRect(x, y, w, h)
-	local me = self:getRect()
-	return	me:left() < x + w and
-         	me:right() > x and
-         	me:top() < y + h and
-         	me:bottom() > y
+	local mex, mey, mew, meh = self.conv:say('get_rect')
+	return	mex < x + w and
+         	mex + mew > x and
+         	mey < y + h and
+         	mey + meh > y
 end
 
 function Collideable:debugDraw()
@@ -38,7 +29,7 @@ function Collideable:debugDraw()
 		local r, g, b, a = love.graphics.getColor()
 		local newR = 255
 		love.graphics.setColor(newR, 0, 0)
-		local x, y, w, h = self:getRect():get()
+		local x, y, w, h = self.conv:say('get_rect')
 		love.graphics.rectangle("fill", x, y, w, h)
 		love.graphics.setColor(r, g, b)
 	end

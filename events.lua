@@ -7,6 +7,8 @@ local events = {
 	'mouse_release'
 	}
 
+-- Action Requested are events that specify that you want something to happen
+-- Action Performed are events that specify that an action has happened
 eventsAR = {}
 eventsAP = {}
 

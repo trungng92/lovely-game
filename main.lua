@@ -1,9 +1,9 @@
 require 'events'
 require 'entities/e_camera'
-require 'ui/ebutton'
+require 'entities/e_button_simple'
+require 'components/ui/button'
 require 'components/rect'
-flux = require 'lib/flux'
-talkback = require 'lib/talkback'
+require 'lib/include'
 
 -- show console output
 io.stdout:setvbuf("no")
@@ -11,7 +11,6 @@ io.stdout:setvbuf("no")
 function love.load()
 	conversation = talkback.new()
 	cam = ECamera.new()
-	local ccam = cam:getComponent('camera')
 	-- I should probably save the return values
 	-- if I want to clean up the conversations later
 	conversation:listen(eventsAR['shift_cam'], function(x, y)
@@ -27,7 +26,7 @@ function love.load()
 		print('hello')
 	end
 
-	ebutton = EButton.new(cam:getComponent('camera'), rect, action)
+	ebuttonSimple = EButtonSimple.new(cam:getComponent('camera'), rect, action, nil, true)
 end
 
 function love.draw()
@@ -35,7 +34,7 @@ function love.draw()
 	love.graphics.print('move the camera with the arrow keys', 10, 30)
 	love.graphics.print('zoom in and out with - and =', 10, 50)
 	cam:getComponent('camera'):drawStart()
-	ebutton:draw()
+	ebuttonSimple:debugDraw()
 	cam:getComponent('camera'):drawEnd()
 end
 
@@ -60,18 +59,18 @@ function love.update(dt)
 	end
 
 	if love.keyboard.isDown('left', 'right', 'up', 'down', '-', '=') then
-		conversation:say('cam transformed', cam:getComponent('camera'))
+		conversation:say(eventsAP['cam_transform'], cam:getComponent('camera'))
 	end
 end
 
 function love.mousepressed(x, y, button, istouch)
-	conversation:say('mouse pressed', x, y, button, istouch)
+	conversation:say(eventsAP['mouse_press'], x, y, button, istouch)
 end
 
 function love.mousemoved(x, y, dx, dy)
-	conversation:say('mouse moved', x, y, dx, dy)
+	conversation:say(eventsAP['mouse_move'], x, y, dx, dy)
 end
 
 function love.mousereleased(x, y, button, istouch)
-	conversation:say('mouse released', x, y, button, istouch)
+	conversation:say(eventsAP['mouse_release'], x, y, button, istouch)
 end

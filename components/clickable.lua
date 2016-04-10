@@ -3,13 +3,13 @@ require 'misc'
 Clickable = {}
 Clickable.__index = Clickable
 
-function Clickable.new(cam, collideable, clickActionFn, pressFn, releaseFn, hoverFn, hoverOffFn, debugDraw)
+function Clickable.new(conv, cam, clickActionFn, pressFn, releaseFn, hoverFn, hoverOffFn, debugDraw)
 	local self = setmetatable({}, Clickable)
+	self.conv = conv
 	self.pressed = false
 	self.over = false
 	-- what cam to use for determining collisions with the mouse
 	self.cam = cam
-	self.collideable = collideable
 	-- action to be performed when click happens
 	self.clickActionFn = clickActionFn
 
@@ -21,15 +21,6 @@ function Clickable.new(cam, collideable, clickActionFn, pressFn, releaseFn, hove
 
 	self.debugDrawEnabled = not not debugDraw
 	return self
-end
-
-function Clickable:setCollideable(collideable)
-	self.collideable = collideable
-end
-
-function Clickable:getCollideable()
-	assert(self.collideable ~= nil, 'tried to get collideable, but it was nil')
-	return self.collideable
 end
 
 function Clickable:isPressed()
@@ -83,7 +74,6 @@ function Clickable:checkRelease(mouseButton)
 			self:clickActionFn()
 		end
 		self.pressed = false
-		-- self.over = false
 
 		if self.releaseFn then
 			self.releaseFn()
@@ -93,7 +83,7 @@ end
 
 function Clickable:isMouseColliding()
 	local mouseX, mouseY = self:getCam():getMousePosition()
-	return self.collideable:isCollidingRect(mouseX, mouseY, 1, 1)
+	return self.conv:say('is_colliding_rect', mouseX, mouseY, 1, 1)
 end
 
 function Clickable:debugDraw()
@@ -102,7 +92,7 @@ function Clickable:debugDraw()
 		local newR = 255
 		local newG = 255 * boolToNum(self.pressed and self.over)
 		love.graphics.setColor(newR, newG, 0)
-		local x, y, w, h = self:getCollideable():getRect():get()
+		local x, y, w, h = self.conv:say('get_rect')
 		love.graphics.rectangle("fill", x, y, w, h)
 		love.graphics.setColor(r, g, b)
 	end
