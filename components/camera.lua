@@ -4,25 +4,14 @@ require 'components/rect'
 Camera = {}
 Camera.__index = Camera
 
-function Camera.new(rect)
+function Camera.new(conv)
 	local self = setmetatable({}, Camera)
-	self.x = 0
-	self.y = 0
-	self.scale = 1
-
-	self.rect = rect
-	self.rect:set(
-		self.x,
-		self.y,
-		love.graphics.getWidth() * self.scale,
-		love.graphics.getHeight() * self.scale)
+	self.conv = conv
+	
+	self:setPos(0, 0)
+	self:setZoom(1)
 
 	return self
-end
-
-function Camera:getRect()
-	assert(self.rect ~= nil, 'tried to get rect, but it was nil')
-	return self.rect
 end
 
 -- mousePosition gets the position of the mouse relative to the camera
@@ -37,25 +26,24 @@ function Camera:getCenter()
 end
 
 function Camera:shift(x, y)
-	self.x = self.x + x
-	self.y = self.y + y
-	self:getRect():setXY(self.x, self.y)
+	self:setPos(self.x + x, self.y + y)
 end
 
 function Camera:setPos(x, y)
 	self.x = x
 	self.y = y
-	self:getRect():setXY(self.x, self.y)
+	self.conv:say('set_rect_xy', self.x, self.y)
 end
 
 function Camera:zoom(scale)
-	self.scale = self.scale + scale
-	self:getRect():setWH(love.graphics.getWidth() * self.scale, love.graphics.getHeight() * self.scale)
+	self:setZoom(self.scale + scale)
 end
 
 function Camera:setZoom(scale)
 	self.scale = scale
-	self:getRect():setWH(love.graphics.getWidth() * self.scale, love.graphics.getHeight() * self.scale)
+	local w = love.graphics.getWidth() * self.scale
+	local h = love.graphics.getHeight() * self.scale
+	self.conv:say('set_rect_wh', w, h)
 end
 
 function Camera:drawStart()

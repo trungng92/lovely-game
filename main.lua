@@ -34,6 +34,7 @@ function love.draw()
 	love.graphics.print('move the camera with the arrow keys', 10, 30)
 	love.graphics.print('zoom in and out with - and =', 10, 50)
 	cam:getComponent('camera'):drawStart()
+	cam:debugDraw()
 	ebuttonSimple:debugDraw()
 	cam:getComponent('camera'):drawEnd()
 end

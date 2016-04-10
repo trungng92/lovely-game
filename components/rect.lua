@@ -65,13 +65,13 @@ end
 function Rect:setXY(x, y)
 	self.x = x
 	self.y = y
+end
+
+function Rect:setWH(w, h)
 	self.w = w
 	self.h = h
 end
 
-function Rect:setWH(w, h)
-	self.x = x
-	self.y = y
-	self.w = w
-	self.h = h
+function Rect:toString()
+	return '{' .. self.x .. ' ' .. self.y .. ' ' .. self.w .. ' ' .. self.h .. '}'
 end

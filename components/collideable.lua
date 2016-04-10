@@ -10,7 +10,7 @@ function Collideable.new(conv)
 end
 
 function Collideable:isColliding(collideable)
-	local x, y, w, h = collideable:getRect():get()
+	local x, y, w, h = self.conv:say('get_rect')
 	return self:isCollidingRect(x, y, w, h)
 end
 

@@ -10,11 +10,11 @@ EButtonSimple.__index = EButtonSimple
 
 function EButtonSimple.new(cam, rect, actionFn, drawFn)
 	local self = setmetatable({}, EButtonSimple)
-	this = self
+	local this = self
 
 	-- no matter what create a new copy of the rect
 	-- this also lets us pass in regular tables as long as they have x, y, w, h
-	x, y, w, h = rect.x or 0, rect.y or 0, rect.w or 0, rect.h or 0
+	local x, y, w, h = rect.x or 0, rect.y or 0, rect.w or 0, rect.h or 0
 	self.rect = Rect.new(x, y, w, h)
 	self.convGroup:listen('get_rect', function()
 		return this.rect:get()
@@ -49,6 +49,11 @@ function EButtonSimple.new(cam, rect, actionFn, drawFn)
 
 	self.buttonSimple = ButtonSimple.new(self.conv, cam, drawFn)
 	return self
+end
+
+function EButtonSimple:cleanup()
+	BaseEntity.cleanup(self)
+	conversation:stopListening(self.convGroupGlobal)
 end
 
 function EButtonSimple:debugDraw()
