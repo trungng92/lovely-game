@@ -5,11 +5,12 @@ require 'components/collideable'
 require 'components/clickable'
 require 'components/ui/button_simple'
 
-EButtonSimple = BaseEntity.new()
+EButtonSimple = {}
 EButtonSimple.__index = EButtonSimple
+setmetatable(EButtonSimple, {__index = BaseEntity})
 
 function EButtonSimple.new(cam, rect, actionFn, drawFn)
-	local self = setmetatable({}, EButtonSimple)
+	local self = setmetatable(BaseEntity.new(), EButtonSimple)
 	local this = self
 
 	-- no matter what create a new copy of the rect

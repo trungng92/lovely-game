@@ -1,5 +1,3 @@
-require 'lib/include'
-
 BaseEntity = {}
 BaseEntity.__index = BaseEntity
 

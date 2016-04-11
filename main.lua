@@ -3,7 +3,8 @@ require 'entities/e_camera'
 require 'entities/e_button_simple'
 require 'components/ui/button'
 require 'components/rect'
-require 'lib/include'
+flux = require 'lib/flux'
+talkback = require 'lib/talkback'
 
 -- show console output
 io.stdout:setvbuf("no")

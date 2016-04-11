@@ -3,11 +3,12 @@ require 'components/rect'
 require 'components/collideable'
 require 'components/camera'
 
-ECamera = BaseEntity.new()
+ECamera = {}
 ECamera.__index = ECamera
+setmetatable(ECamera, {__index = BaseEntity})
 
 function ECamera.new(debugDraw)
-	local self = setmetatable({}, ECamera)
+	local self = setmetatable(BaseEntity.new(), ECamera)
 	local this = self
 
 	-- useful if we want to check if anything is colliding with the camera (aka on screen)
