@@ -1,5 +1,3 @@
-require 'components/collideable'
-require 'components/rect'
 
 Camera = {}
 Camera.__index = Camera

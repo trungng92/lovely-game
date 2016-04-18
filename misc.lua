@@ -2,6 +2,10 @@ function boolToNum(bool)
 	return bool and 1 or 0
 end
 
+function toBool(val)
+    return not not val
+end
+
 function print_r ( t )
     local print_r_cache={}
     local function sub_print_r(t,indent)

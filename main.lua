@@ -1,6 +1,7 @@
 require 'events'
 require 'entities/e_camera'
 require 'entities/e_button_simple'
+require 'entities/e_button'
 require 'components/ui/button'
 require 'components/rect'
 flux = require 'lib/flux'
@@ -27,7 +28,7 @@ function love.load()
 		print('hello')
 	end
 
-	ebuttonSimple = EButtonSimple.new(cam:getComponent('camera'), rect, action, nil, true)
+	ebutton = EButton.new(cam:getComponent('camera'), rect, action)
 end
 
 function love.draw()
@@ -36,7 +37,7 @@ function love.draw()
 	love.graphics.print('zoom in and out with - and =', 10, 50)
 	cam:getComponent('camera'):drawStart()
 	cam:debugDraw()
-	ebuttonSimple:debugDraw()
+	ebutton:draw()
 	cam:getComponent('camera'):drawEnd()
 end
 
