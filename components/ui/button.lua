@@ -44,6 +44,11 @@ function Button.new(conv, actionFn, drawFn, drawUpFn, drawDownFn, drawHoverOffFn
 		end
 	end
 
+	self.isOverState = false
+	self:drawHoverOffFn()
+	self.isPressedState = false
+	self:drawUpFn()
+
 	return self
 end
 
@@ -52,17 +57,30 @@ function Button:draw()
 end
 
 -- Sets the new tweening for how the button should look like
+-- Note that updateState will only call the proper draw function if the state changes
 function Button:updateState()
 	if self.conv:say('is_over') then
-		self:drawHoverFn()
-		if self.conv:say('is_pressed') then
+		if not self.isOverState then
+			self:drawHoverFn()
+		end
+		self.isOverState = true
+		local isCurrentlyPressed = self.conv:say('is_pressed')
+		if isCurrentlyPressed and not self.isPressedState then
 			self:drawDownFn()
-		else
+			self.isPressedState = true
+		elseif not isCurrentlyPressed and self.isPressedState then
 			self:drawUpFn()
+			self.isPressedState = false
 		end
 	else
-		self:drawUpFn()
-		self:drawHoverOffFn()
+		if self.isOverState then
+			self:drawHoverOffFn()
+			self.isOverState = false
+		end
+		if self.isPressedState then
+			self:drawUpFn()
+			self.isPressedState = false
+		end
 	end
 end
 
