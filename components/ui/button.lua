@@ -101,17 +101,23 @@ function Button:defaultDrawButtonDown()
 end
 
 function Button:defaultDrawButtonHoverOff()
-	flux.to(self, 0.2, {rCurrent=self.colorHoverOff.r})
-	flux.to(self, 0.2, {gCurrent=self.colorHoverOff.g})
-	flux.to(self, 0.2, {bCurrent=self.colorHoverOff.b})
-	flux.to(self, 0.2, {aCurrent=self.colorHoverOff.a})
+	local values = {
+		rCurrent=self.colorHoverOff.r,
+		gCurrent=self.colorHoverOff.g,
+		bCurrent=self.colorHoverOff.b,
+		aCurrent=self.colorHoverOff.a
+	}
+	flux.to(self, 0.2, values)
 end
 
 function Button:defaultDrawButtonHover()
-	flux.to(self, 0.2, {rCurrent=self.colorHover.r})
-	flux.to(self, 0.2, {gCurrent=self.colorHover.g})
-	flux.to(self, 0.2, {bCurrent=self.colorHover.b})
-	flux.to(self, 0.2, {aCurrent=self.colorHover.a})
+	local values = {
+		rCurrent=self.colorHover.r,
+		gCurrent=self.colorHover.g,
+		bCurrent=self.colorHover.b,
+		aCurrent=self.colorHover.a
+	}
+	flux.to(self, 0.2, values)
 end
 
 function Button:debugDraw()
